@@ -16,7 +16,7 @@ export type DropdownProps = CommonDropdownProps &
 export type CommonDropdownProps = {
   label?: string;
   options: TFlatList | TSectionList;
-  optionLabel?: string;
+  optionLabel?: string | JSX.Element;
   optionValue?: string;
   onValueChange: Function;
   selectedValue?:
@@ -117,7 +117,7 @@ export type TListControls = {
 
 export type TFlatList = TFlatListItem[];
 export type TFlatListItem = {
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | JSX.Element;
 };
 
 export type TSectionList = TSectionListItem[];
