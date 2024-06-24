@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Pressable, Text, StyleSheet, Image, View } from 'react-native';
 import { colors } from '../../styles/colors';
 import { CHECKBOX_SIZE } from '../../constants';
@@ -21,12 +21,12 @@ const CheckBox = ({
     backgroundColor: disabled
       ? '#d3d3d3'
       : value
-      ? checkboxControls?.checkboxStyle?.backgroundColor ||
-        checkboxComponentStyles?.checkboxStyle?.backgroundColor ||
-        checkboxStyle?.backgroundColor ||
-        primaryColor ||
-        'green'
-      : 'white',
+        ? checkboxControls?.checkboxStyle?.backgroundColor ||
+          checkboxComponentStyles?.checkboxStyle?.backgroundColor ||
+          checkboxStyle?.backgroundColor ||
+          primaryColor ||
+          'green'
+        : 'white',
     borderColor: disabled
       ? colors.disabled
       : checkboxControls?.checkboxStyle?.borderColor ||
@@ -34,6 +34,25 @@ const CheckBox = ({
         checkboxStyle?.borderColor ||
         styles.checkbox.borderColor,
   };
+
+  const renderLabel = useCallback(() => {
+    if (label && typeof label === 'string' && label !== '') {
+      return (
+        <Text
+          style={[
+            checkboxControls?.checkboxLabelStyle ||
+              checkboxComponentStyles?.checkboxLabelStyle ||
+              checkboxLabelStyle,
+            styles.labelStyle,
+          ]}
+        >
+          {label}
+        </Text>
+      );
+    } else if (label && typeof label !== 'string') return label;
+
+    return null;
+  }, [label]);
 
   return (
     <Pressable
@@ -70,18 +89,8 @@ const CheckBox = ({
           />
         )}
       </View>
-      {label && label !== '' && (
-        <Text
-          style={[
-            checkboxControls?.checkboxLabelStyle ||
-              checkboxComponentStyles?.checkboxLabelStyle ||
-              checkboxLabelStyle,
-            styles.labelStyle,
-          ]}
-        >
-          {label}
-        </Text>
-      )}
+
+      {renderLabel()}
     </Pressable>
   );
 };
